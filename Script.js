@@ -58,16 +58,34 @@ menuImages.forEach(img => {
         overlay.style.left = 0;
         overlay.style.width = '100vw';
         overlay.style.height = '100vh';
-        overlay.style.background = 'rgba(0,0,0,0.8)';
+        overlay.style.background = 'rgba(0,0,0,0.9)';
         overlay.style.display = 'flex';
         overlay.style.alignItems = 'center';
         overlay.style.justifyContent = 'center';
         overlay.style.cursor = 'zoom-out';
-        overlay.innerHTML = `<img src="${img.src}" style="max-width:90%;max-height:90%;border-radius:10px;">`;
+        overlay.style.zIndex = 9999;
+
+        const popupImage = document.createElement('img');
+        popupImage.src = img.src;
+        popupImage.style.maxWidth = '90%';
+        popupImage.style.maxHeight = '90%';
+        popupImage.style.borderRadius = '10px';
+        popupImage.style.boxShadow = '0 10px 20px rgba(0,0,0,0.5)';
+
+        overlay.appendChild(popupImage);
         document.body.appendChild(overlay);
 
         overlay.addEventListener('click', () => {
             document.body.removeChild(overlay);
         });
     });
+});
+
+// Check URL hash
+window.addEventListener('load', () => {
+    if (window.location.hash === '#menu-gallery') {
+        const gallery = document.getElementById('menu-gallery');
+        gallery.hidden = false;
+        gallery.scrollIntoView({ behavior: 'smooth' });
+    }
 });
